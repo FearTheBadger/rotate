@@ -75,15 +75,18 @@ public class Settings extends InputAdapter implements Screen {
 		skin.add("default", cbs);
 		
 		timer = new CheckBox("Show timer.", skin);
-		timer.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()+10);
+		timer.getCells().get(0).size(60, 60);
+		timer.setPosition(Gdx.graphics.getWidth()/2, (Gdx.graphics.getHeight()/2)+60);
 		stage.addActor(timer);
 		
 		flip = new CheckBox("Allow image flipping.", skin);
-		flip.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight());
+		flip.getCells().get(0).size(60, 60);
+		flip.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		stage.addActor(flip);
 		
 		indicator = new CheckBox("Show correct location inicator.", skin);
-		indicator.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()-10);
+		indicator.getCells().get(0).size(60, 60);
+		indicator.setPosition(Gdx.graphics.getWidth()/2, (Gdx.graphics.getHeight()/2)-60);
 		stage.addActor(indicator);
 		
 		//btnPlay = new TextButton("PLAY", skin);
