@@ -4,14 +4,15 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.fearthebadger.studio.rotator.MainRotator;
@@ -23,15 +24,15 @@ public class Settings extends InputAdapter implements Screen {
 	
 	MainRotator game;
 	
-	private TextureAtlas atlas;
+	//private TextureAtlas atlas;
 	private Skin skin;
 	
 	private Viewport viewport;
 	
-	private Texture buttonUpTex, buttonDownTex, buttonOverTex;
-	private TextButton btnPlay;
+	private Texture checkBoxOn, checkBoxOff;
+	private CheckBox.CheckBoxStyle cbs;
 	
-	private TextButtonStyle tbs;
+	private CheckBox timer, flip, indicator;
 	
 	private BitmapFont font;
 	
@@ -57,22 +58,37 @@ public class Settings extends InputAdapter implements Screen {
 		font = new BitmapFont(Gdx.files.internal("data/font.fnt"));
 		
 		skin = new Skin();
-		atlas = new TextureAtlas(Gdx.files.internal("button.atlas"));
-		skin.addRegions(atlas);
+		//atlas = new TextureAtlas(Gdx.files.internal("button.atlas"));
+		//skin.addRegions(atlas);
 		
 		Gdx.app.log(TAG, "Rotator Before Map");
-		tbs = new TextButtonStyle();
-		tbs.font = font;
-		tbs.up = skin.getDrawable("myactor");
-		tbs.down = skin.getDrawable("myactorDown");
-		tbs.checked = skin.getDrawable("myactorDown");
-		tbs.over = skin.getDrawable("myactorOver");
-		skin.add("default", tbs);
 		
-		btnPlay = new TextButton("PLAY", skin);
-		btnPlay.sizeBy(180.0f, 60.0f);
-		btnPlay.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-		stage.addActor(btnPlay);
+		checkBoxOn = new Texture(Gdx.files.internal("checkBoxOn.png"));
+		checkBoxOff = new Texture(Gdx.files.internal("checkBoxOff.png"));
+		
+		cbs = new CheckBox.CheckBoxStyle();
+		cbs.checkboxOn = new TextureRegionDrawable( new TextureRegion(checkBoxOn) );
+		cbs.checkboxOff = new TextureRegionDrawable( new TextureRegion(checkBoxOff) );
+		cbs.font = font;
+		cbs.fontColor = Color.WHITE;
+		
+		skin.add("default", cbs);
+		
+		timer = new CheckBox("Show timer.", skin);
+		timer.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()+10);
+		stage.addActor(timer);
+		
+		flip = new CheckBox("Allow image flipping.", skin);
+		flip.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight());
+		stage.addActor(flip);
+		
+		indicator = new CheckBox("Show correct location inicator.", skin);
+		indicator.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()-10);
+		stage.addActor(indicator);
+		
+		//btnPlay = new TextButton("PLAY", skin);
+		//btnPlay.sizeBy(180.0f, 60.0f);
+		//btnPlay.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 	}
 	
 	@Override
@@ -97,9 +113,8 @@ public class Settings extends InputAdapter implements Screen {
 
 	@Override
 	public void dispose() {
-		buttonDownTex.dispose();
-		buttonUpTex.dispose();
-		buttonOverTex.dispose();
+		checkBoxOff.dispose();
+		checkBoxOn.dispose();
 		
 		stage.dispose();
 	}

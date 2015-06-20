@@ -75,10 +75,12 @@ public class MainMenu extends InputAdapter implements Screen {
 		btnPlay.sizeBy(180.0f, 60.0f);
         btnPlay.setPosition(Gdx.graphics.getWidth()/2 - Gdx.graphics.getWidth()/8 , Gdx.graphics.getHeight()/2);
         stage.addActor(btnPlay);
+        
 		btnSettings = new TextButton("SETS", skin);
 		btnSettings.sizeBy(30.0f, 60.0f);
         btnSettings.setPosition(Gdx.graphics.getWidth()/2 + 60, (Gdx.graphics.getHeight()/2)-120);
         stage.addActor(btnSettings);
+        
         btnImages = new TextButton("Images", skin);
         btnImages.sizeBy(30.0f, 60.0f);
         btnImages.setPosition(Gdx.graphics.getWidth()/2 - 120, (Gdx.graphics.getHeight()/2)-120);
