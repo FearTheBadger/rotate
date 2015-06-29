@@ -2,6 +2,7 @@ package com.fearthebadger.studio.rotator;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -21,7 +22,7 @@ public class MainGame extends InputAdapter implements Screen {
 	
 	private static final Color backgroundColor = new Color(0.50f, 0.18f, 0.92f, 1.0f);
 	
-	MainRotator game;
+	private MainRotator game;
 	
 	static Sprite gamePiece;
 	
@@ -49,7 +50,8 @@ public class MainGame extends InputAdapter implements Screen {
 	private int minDegree;
 	private int maxDegree;
 	
-	public MainGame() {
+	public MainGame(MainRotator game) {
+		this.game = game;
 		create();
 	}
 	
@@ -121,7 +123,11 @@ public class MainGame extends InputAdapter implements Screen {
 		} else {
 			matchCount = 0;
 		}
-		
+	
+		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+			Gdx.app.log(TAG, "this.game = " + this.game);
+			game.setScreen(new MainMenu(this.game));
+		}
 		
 		batch.begin();
 //		background.draw(batch);	
@@ -155,8 +161,7 @@ public class MainGame extends InputAdapter implements Screen {
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-		
+		Gdx.input.setCatchBackKey(true);
 	}
 
 	@Override

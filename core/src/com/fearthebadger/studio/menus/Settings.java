@@ -2,6 +2,7 @@ package com.fearthebadger.studio.menus;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -17,14 +18,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.fearthebadger.studio.rotator.MainRotator;
-import com.fearthebadger.studio.utils.RotatorConstants;
+import com.fearthebadger.studio.rotator.*;
+import com.fearthebadger.studio.utils.*;
 
 public class Settings extends InputAdapter implements Screen {
 	
 	private static final String TAG = "Rotator Settings";
 	
-	MainRotator game;
+	private MainRotator game;
 	
 	//private TextureAtlas atlas;
 	private Skin skin;
@@ -41,12 +42,9 @@ public class Settings extends InputAdapter implements Screen {
 	private Stage stage;
 
 	public Settings(final MainRotator game) {
-		create();
 		this.game = game;
-	}
-
-	public Settings() {
-		create();		
+		Gdx.app.log(TAG, "this.game = " + this.game);
+		create();
 	}
 
 	public void create() {
@@ -126,14 +124,12 @@ public class Settings extends InputAdapter implements Screen {
 				Gdx.app.log(TAG, "Rotator: loc_indicator = " + RotatorConstants.loc_indicator);
 			}
 		});
-		
-		//btnPlay = new TextButton("PLAY", skin);
-		//btnPlay.sizeBy(180.0f, 60.0f);
-		//btnPlay.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 	}
 	
 	@Override
-	public void show() {}
+	public void show() {
+		Gdx.input.setCatchBackKey(true);
+	}
 
 	@Override
 	public void render(float delta) {
@@ -142,6 +138,11 @@ public class Settings extends InputAdapter implements Screen {
 				RotatorConstants.bgColor.b,
 				RotatorConstants.bgColor.a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+			Gdx.app.log(TAG, "this.game = " + this.game);
+			game.setScreen(new MainMenu(this.game));
+		}
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1/60f));
 		stage.draw();

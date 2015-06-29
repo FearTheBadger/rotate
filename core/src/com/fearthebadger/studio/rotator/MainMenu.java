@@ -2,6 +2,7 @@ package com.fearthebadger.studio.rotator;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -23,7 +24,7 @@ public class MainMenu extends InputAdapter implements Screen {
 
 	private static final String TAG = "Rotator Main";
 	
-	MainRotator game;
+	private MainRotator game;
 	
 	private TextureAtlas atlas;
 	private Skin skin;
@@ -42,10 +43,7 @@ public class MainMenu extends InputAdapter implements Screen {
 	public MainMenu(final MainRotator game) {
 		create();
 		this.game = game;
-	}
-	
-	public MainMenu(){
-		create();
+		Gdx.app.log(TAG, "Rotator game: " + this.game);
 	}
 	
 	public void create() {		
@@ -90,14 +88,14 @@ public class MainMenu extends InputAdapter implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Gdx.app.log(TAG, "Rotator PLAY");
-				game.setScreen(new MainGame());
+				game.setScreen(new MainGame(game));
 			}
 		});
 		
 		btnSettings.addListener( new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				Gdx.app.log(TAG, "Rotator Settings");
-				game.setScreen(new Settings());
+				Gdx.app.log(TAG, "Calling Settings");
+				game.setScreen(new Settings(game));
 			}
 		});
 	}
@@ -109,6 +107,11 @@ public class MainMenu extends InputAdapter implements Screen {
 				RotatorConstants.bgColor.b,
 				RotatorConstants.bgColor.a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+			Gdx.app.log(TAG, "Exiting");
+			Gdx.app.exit();
+		}
 		
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
 		stage.draw();
@@ -135,7 +138,9 @@ public class MainMenu extends InputAdapter implements Screen {
 	public void resume() {}
 
 	@Override
-	public void show() {}
+	public void show() {
+		Gdx.input.setCatchBackKey(true);
+	}
 
 	@Override
 	public void hide() {} 
